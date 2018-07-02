@@ -14,12 +14,12 @@ app.use(bodyParser.json());
 app.set('trust proxy', 1);
 
 app.post('/requestTransfer', (req, res) => {
-	let {year, month, day, hour, minutes, amount, type, credit, debit } = req.body;
-	
+	let { year, month, day, hour, minutes, amount, type, credit, debit } = req.body;
+
 	let transactionTime = new Date(year + '-' + month + '-' + day + 'T' + hour + ':' + minutes + ':' + '00');
 
 	let newTransaction = {
-		transactionTime, 
+		transactionTime,
 		type,
 		credit,
 		debit,
@@ -42,22 +42,6 @@ app.get('/account/:id', (req, res) => {
 app.get('/history', (req, res) => {
 	res.send(fundsTransfer.getHistory());
 });
-
-
-app.get('/test', (req, res) => {
-	let newTransaction = fundsTransfer.addTransaction(new Date(), 'refund', 'A', 'B', '10');
-	console.log(newTransaction);
-	//fundsTransfer.executeTransaction(newTransaction);
-	let transaction = fundsTransfer.getTransaction(newTransaction);
-	let accountA = fundsTransfer.getAccountData('A');
-	let accountB = fundsTransfer.getAccountData('B');
-	console.log('TRANSACTION', transaction);
-	console.log('A', accountA);
-	console.log('B', accountB);
-	res.send('ok');
-});
-
-
 
 const fundsTransfer = require('./lib/fundsTransfer')();
 
